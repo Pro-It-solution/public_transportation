@@ -1,0 +1,18 @@
+{
+    "login":"تسجيل الدخول",
+    "nationID":"رقم الوطني",
+    "password":"كلمة المرور",
+    "appName":"flutter demo",
+    "dontHaveAcoount":"ليس لديك حساب ؟",
+    "passwordLengthError":"كلمة المرور يجب ان تحتوي من 6 ل 8 احرق او رقم",
+    "passwoedNUllValueError":"الرجاء ادخال كلمة المرور",
+    "nationIDLengthError":"الرقم الوطني يجب ان يحنوي على 10 ارقام",
+    "nationNUllValueError":"الرجاء ادخال الرقم الوطني",
+    "cancel":"الغاء",
+    "ok":"تم",
+    "search":"البحث",
+    "choosePicture":"اختر صورة",
+    "gallery":"المعرض",
+    "camera":"الكاميرا"
+
+}

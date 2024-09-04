@@ -1,0 +1,18 @@
+{
+    "login":"login",
+    "nationID":" nationality number",
+    "password":"password",
+    "appName":"flutter demo",
+    "dontHaveAcoount":"dont have an account ?",
+    "passwordLengthError":"Password must be 6 to 15 letters or numbers long",
+    "passwoedNUllValueError":"Please enter your national number",
+    "nationIDLengthError":"Nation number must be 10 numbers long",
+    "nationNUllValueError":"Please enter your password",
+    "cancel":"cancel",
+    "ok":"ok",
+    "search":"search",
+    "choosePicture":"choose picture",
+    "gallery":"gallery",
+    "camera":"camera"
+
+}
