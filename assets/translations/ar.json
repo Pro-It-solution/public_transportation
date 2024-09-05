@@ -13,6 +13,8 @@
     "search":"البحث",
     "choosePicture":"اختر صورة",
     "gallery":"المعرض",
-    "camera":"الكاميرا"
+    "camera":"الكاميرا",
+    "nodata":"لا يوجد بيانات",
+    "noconnect":"لا يوجد اتصال"
 
 }

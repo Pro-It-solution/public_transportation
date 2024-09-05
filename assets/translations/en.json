@@ -13,6 +13,8 @@
     "search":"search",
     "choosePicture":"choose picture",
     "gallery":"gallery",
-    "camera":"camera"
+    "camera":"camera",
+    "nodata":"no data found",
+    "noconnect":"no connection"
 
 }

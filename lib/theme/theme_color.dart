@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 class ThemeColor {
@@ -38,4 +37,6 @@ class ThemeColor {
   static final Color blueGrey = colorFromHex('#607D8B');
   static final Color deepOrange = colorFromHex('#FF5722');
   static final Color redAccent = colorFromHex('#FF5252');
+  // list color
+  static final List<Color> btnAuth = [redAccent, deepOrange];
 }

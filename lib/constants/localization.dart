@@ -14,4 +14,6 @@ class ConstantLocalization {
   static const String gallery = "gallery";
   static const String camera = "camera";
   static const String choosePicture = "choosePicture";
+  static const String nodata = "nodata";
+  static const String noconnect = "noconnect";
 }

@@ -1,10 +1,19 @@
-
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'theme_color.dart';
 
 class DarkLightTheme with ChangeNotifier {
+  // fonts lang
+  static String? enFont = GoogleFonts.aBeeZee().fontFamily;
+  static String? arFont = GoogleFonts.cairo().fontFamily;
+
+  /// [checkLangFont] return font depended lang
+  static String? checkLangFont(BuildContext context) =>
+      context.locale == const Locale('en') ? enFont : arFont;
+
   static ThemeData themeLight(BuildContext context) {
     return ThemeData.light(useMaterial3: true).copyWith(
         colorScheme: const ColorScheme.light(),
