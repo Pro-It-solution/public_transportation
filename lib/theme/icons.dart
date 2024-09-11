@@ -17,6 +17,7 @@ class ThemeIcons {
   // upload news
   static const IconData upload = CupertinoIcons.cloud_upload_fill;
   static const IconData uploadOutlined = CupertinoIcons.cloud_upload;
+  static const IconData nationality = CupertinoIcons.number;
 
   // lang
   static const IconData lang = Icons.language;

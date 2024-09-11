@@ -51,19 +51,19 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDRswVcSw_7IGpI40-Xny47nKCahQA9nHk',
-    appId: '1:968226357348:android:d1bb4d3dee99f9f5dbdf71',
-    messagingSenderId: '968226357348',
-    projectId: 'smartgovernment-71d0c',
-    storageBucket: 'smartgovernment-71d0c.appspot.com',
+    apiKey: 'AIzaSyBWpHsg8MCrEtoV4wp0k2UI7Tpk36_Pakg',
+    appId: '1:437110431977:android:0b410169ae531fb5841078',
+    messagingSenderId: '437110431977',
+    projectId: 'traffic-a5a1b',
+    storageBucket: 'traffic-a5a1b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCEhk5noEvechTK2yGwvx9EBf-L3BPb21Q',
-    appId: '1:968226357348:ios:a9b07d8a5039af6ddbdf71',
-    messagingSenderId: '968226357348',
-    projectId: 'smartgovernment-71d0c',
-    storageBucket: 'smartgovernment-71d0c.appspot.com',
+    apiKey: 'AIzaSyD0DQP__fty5qfGeaBf0pYpSL6EpjK0eFo',
+    appId: '1:437110431977:ios:97b955430be8f50a841078',
+    messagingSenderId: '437110431977',
+    projectId: 'traffic-a5a1b',
+    storageBucket: 'traffic-a5a1b.appspot.com',
     iosBundleId: 'com.example.newApp00',
   );
 

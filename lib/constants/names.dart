@@ -1,5 +1,5 @@
 class ConstantNames {
-  static const String id = "id";
+  static const String id = "nationality";
   static const String carNumber = "carNumber";
   static const String image = "image";
 

@@ -13,7 +13,10 @@ class ConstantLocalization {
   static const String search = "search";
   static const String gallery = "gallery";
   static const String camera = "camera";
-  static const String choosePicture = "choosePicture";
+  static const String chooseWay = "choosePicture";
+  static const String government = "government";
+  static const String carOwner = "carOwner";
+
   static const String nodata = "nodata";
   static const String noconnect = "noconnect";
 }

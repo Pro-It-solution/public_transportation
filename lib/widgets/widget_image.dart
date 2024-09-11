@@ -9,22 +9,21 @@ import 'package:new_app00/theme/theme_color.dart';
 import 'package:new_app00/widgets/w_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/localization.dart';
+import '../model/pictures.dart';
+import 'w_image_auth.dart';
+
 class WidgetImage extends StatelessWidget {
   const WidgetImage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ControllerImage controllerImage = Provider.of<ControllerImage>(context);
+    ControllerImage authImage =
+        Provider.of<ControllerImage>(context, listen: false);
     return InkWell(
       borderRadius: BorderRadius.circular(MDime.xxl.w),
       onTap: () {
-        // bottom Sheet
-        showFlexibleBottomSheet(
-          context: context,
-          builder: (context, scrollController, bottomSheetOffset) {
-            return const WidgetDesignBottomSheet();
-          },
-        );
+        authImage.selectImage(context, false);
       },
       child: Stack(
         children: [

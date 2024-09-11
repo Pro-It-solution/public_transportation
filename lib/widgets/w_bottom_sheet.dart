@@ -8,6 +8,8 @@ import 'package:new_app00/model/pictures.dart';
 import 'package:new_app00/theme/text_style.dart';
 import 'package:new_app00/widgets/w_image_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class WidgetDesignBottomSheet extends StatelessWidget {
   const WidgetDesignBottomSheet({super.key});
@@ -24,7 +26,7 @@ class WidgetDesignBottomSheet extends StatelessWidget {
             // title
             Flexible(
                 child: Text(
-              ConstantLocalization.choosePicture.tr(),
+              ConstantLocalization.chooseWay.tr(),
               style: ThemeTextStyle.dSmall(context),
             )),
 
@@ -36,17 +38,26 @@ class WidgetDesignBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                   child: WImageAuth(
-                    url: ModelPictres.gallery,
-                    data: ConstantLocalization.gallery,
-                    onTap: () => authImage.selectImage(context, true),
-                  ),
+                      url: ModelPictres.gallery,
+                      data: ConstantLocalization.carOwner,
+                      onTap: () async {
+                        const number = '0799196171'; //set the number here
+                        bool? res =
+                            await FlutterPhoneDirectCaller.callNumber(number);
+                      }),
                 ),
                 Expanded(
                   child: WImageAuth(
-                    url: ModelPictres.camera,
-                    data: ConstantLocalization.camera,
-                    onTap: () => authImage.selectImage(context, false),
-                  ),
+                      url: ModelPictres.camera,
+                      data: ConstantLocalization.government,
+                      onTap: () async {
+                        Uri phoneno = Uri.parse('tel:911');
+                        if (await launchUrl(phoneno)) {
+                          //dialer opened
+                        } else {
+                          //dailer is not opened
+                        }
+                      }),
                 ),
               ],
             ),

@@ -52,7 +52,13 @@ dependencies:
   cloud_firestore: ^5.4.0
   firebase_auth: ^5.2.0
   form_builder_validators: ^11.0.0
-
+  firebase_auth_platform_interface: ^7.4.4
+  firebase_app_check: ^0.3.1
+  pinput: ^5.0.0
+  shared_preferences: ^2.3.2
+  url_launcher: ^6.3.0
+  flutter_phone_direct_caller: ^2.1.1
+  flutter_tesseract_ocr: ^0.4.26
 dev_dependencies:
   flutter_test:
     sdk: flutter

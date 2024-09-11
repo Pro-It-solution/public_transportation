@@ -1,8 +1,18 @@
+import 'dart:developer';
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:new_app00/controller/controller_ocr.dart';
 import 'package:path/path.dart' as p;
+import 'package:provider/provider.dart';
+
+import 'controller_upload_car_number.dart';
 
 class ControllerImage extends ChangeNotifier {
   /// [image] goal is save image user
@@ -20,12 +30,12 @@ class ControllerImage extends ChangeNotifier {
 
     if (image != null && context.mounted) {
       Navigator.pop(context);
-      cropImage();
+      cropImage(context);
     }
   }
 
   /// [cropImage] open edit image
-  Future<void> cropImage() async {
+  Future<void> cropImage(BuildContext context) async {
     if (image != null) {
       CroppedFile? croppedFile =
           await ImageCropper().cropImage(sourcePath: image!.path);
@@ -33,10 +43,33 @@ class ControllerImage extends ChangeNotifier {
       if (croppedFile != null) {
         // convert XFile
         image = XFile(croppedFile.path);
+        OcrImage(context);
       }
-
-      notifyListeners();
     }
+  }
+
+  OcrImage(BuildContext context) async {
+    if (image == null) return;
+    File _image = File(image!.path);
+
+    final inputImage = InputImage.fromFile(_image);
+    final textDetector = GoogleMlKit.vision.textRecognizer();
+    final recognizedText = await textDetector.processImage(inputImage);
+
+    String result = '';
+    for (TextBlock block in recognizedText.blocks) {
+      for (TextLine line in block.lines) {
+        result += line.text + '\n';
+      }
+    }
+
+    textDetector.close();
+
+    ControllerOCR cOCR = Provider.of<ControllerOCR>(context, listen: false);
+    CUploadCar carnumber = Provider.of<CUploadCar>(context, listen: false);
+
+    cOCR.ocr.carNumber = result;
+    carnumber.salad.setcarNumber(result);
   }
 
   /// [getImageUser] check user image have or not

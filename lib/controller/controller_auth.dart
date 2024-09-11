@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:new_app00/controller/controller_upload_user_info.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer' as developer;
 
 import '../constants/localization.dart';
@@ -52,104 +55,21 @@ class ControllerAuth extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// [register] create account on firebase when successful  return `true`  otherwise `false`
-  Future<bool> register(BuildContext context) async {
-    try {
-      // start loading
-      changeLoading = true;
-
-      UserCredential userCredential =
-          await firebaseAuth.signInWithPhoneNumber(
-              : dataUser.phone!, password: dataUser.pass!);
-
-      // check create user or not
-      if (userCredential.user != null) {
-        // task upload image user
-        if (context.mounted) {
-          ControllerImage controllerAuthImageUser =
-              Provider.of<ControllerImage>(context, listen: false);
-
-          // change image user
-          userCredential.user
-              ?.updatePhotoURL(await controllerAuthImageUser.uploadImage(
-                    'userImage',
-                  ));
-        }
-
-        // change user name
-        userCredential.user?.updateDisplayName((dataUser.userName!));
-
-        // stop loading
-        changeLoading = false;
-        return true;
-      } else {
-        // stop loading
-        changeLoading = false;
-        return false;
-      }
-    }
-    //  on SocketException {
-    //   // stop loading
-    //   changeLoading = false;
-    //   // update user when error register account
-    //   setErrorMessage = tr(MLanguages.noconnect.tr());
-    //   return false;
-    // } on FirebaseAuthException catch (error) {
-    //   // stop loading
-    //   changeLoading = false;
-    //   // update user when error register account
-    //   setErrorMessage = error.message ?? 'error firebase ';
-
-    //   return false;
-    // }
-    catch (error) {
-      // stop loading
-      changeLoading = false;
-      // update user when error register account
-      setErrorMessage = error.toString();
-      developer.log(error.toString());
-      developer.log(dataUser.userName ?? '3');
-      developer.log(dataUser.toString());
-
-      return false;
-    }
-  }
-
   /// [login] login account on firebase when successful  return `true`  otherwise `false`
   Future<bool> login(BuildContext context) async {
     try {
       // start loading
       changeLoading = true;
 
-      UserCredential userCredential =
-          await firebaseAuth.signInWithEmailAndPassword(
-              email: dataUser.email!, password: dataUser.pass!);
-
-      // check create user or not
-      if (userCredential.user != null) {
-        // stop loading
-        changeLoading = false;
-        return true;
-      } else {
-        // stop loading
-        changeLoading = false;
-        return false;
-      }
-    }
-    //  on SocketException {
-    //   // stop loading
-    //   changeLoading = false;
-    //   // update user when error register account
-    //   setErrorMessage = tr(MLanguages.noconnect.tr());
-    //   return false;
-    // } on FirebaseAuthException catch (error) {
-    //   // stop loading
-    //   changeLoading = false;
-    //   // update user when error register account
-    //   setErrorMessage = error.message ?? 'error firebase ';
-    //   return false;
-    // }
-    catch (error) {
+      firebaseAuth.signInAnonymously();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("nationality", dataUser.nationality ?? '-1');
+      prefs.setString("username", dataUser.userName ?? '-1');
+      prefs.setString("phoneNumber", dataUser.phoneNumber ?? '-1');
+      CUserInfo userInfo = Provider.of<CUserInfo>(context, listen: false);
+      userInfo.upload(context, dataUser);
+      return true;
+    } catch (error) {
       // stop loading
       changeLoading = false;
       // update user when error register account
@@ -160,6 +80,8 @@ class ControllerAuth extends ChangeNotifier {
       return false;
     }
   }
+
+// Create a RecaptchaVerifier
 
   /// [signInWithFacebook] Facebooklogin account on firebase when successful  return `true`  otherwise `false`
   // Future<bool> signInWithFacebook(BuildContext context) async {
@@ -306,6 +228,35 @@ class ControllerAuth extends ChangeNotifier {
     return firebaseAuth.currentUser?.phoneNumber ?? '077xxxxxxx';
 
     // return (await facebookData)['email'];
+  }
+
+  Future<String?> promptUserForSmsCode(BuildContext context) async {
+    String? smsCode;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Enter SMS Code"),
+          content: TextField(
+            onChanged: (value) {
+              smsCode = value;
+            },
+            keyboardType: TextInputType.number,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Submit"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    return smsCode;
   }
 
   /// [userPhoto]

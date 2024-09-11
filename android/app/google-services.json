@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "968226357348",
-    "project_id": "new_app00",
-    "storage_bucket": "new_app00.appspot.com"
+    "project_number": "437110431977",
+    "project_id": "traffic-a5a1b",
+    "storage_bucket": "traffic-a5a1b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:968226357348:android:d1bb4d3dee99f9f5dbdf71",
+        "mobilesdk_app_id": "1:437110431977:android:0b410169ae531fb5841078",
         "android_client_info": {
           "package_name": "com.example.new_app00"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDRswVcSw_7IGpI40-Xny47nKCahQA9nHk"
+          "current_key": "AIzaSyBWpHsg8MCrEtoV4wp0k2UI7Tpk36_Pakg"
         }
       ],
       "services": {
