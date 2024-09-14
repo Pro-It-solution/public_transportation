@@ -26,7 +26,7 @@ class ViewHome extends StatelessWidget {
           const WidgetImage(),
           Consumer<ControllerOCR>(
               builder: (context, value, child) =>
-                  Text("color number" + (value.ocr.carNumber ?? ""))),
+                  Text("car number" + (value.ocr.carNumber ?? ""))),
           WidgetTextField(
             labelText: "car number",
             onChanged: (p0) {

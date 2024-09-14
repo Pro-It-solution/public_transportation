@@ -1,17 +1,12 @@
-import 'dart:developer';
-import 'dart:ffi';
-import 'dart:io';
-
+import 'dart:developer' as developer;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_app00/controller/controller_ocr.dart';
 import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
-
 import 'controller_upload_car_number.dart';
 
 class ControllerImage extends ChangeNotifier {
@@ -19,57 +14,86 @@ class ControllerImage extends ChangeNotifier {
   XFile? image;
 
   /// [selectImage] choice image from gallery
-  Future<void> selectImage(BuildContext context, bool isGallery) async {
-    // create object from picker
-    final ImagePicker picker = ImagePicker();
+  Future<void> selectImage(BuildContext context) async {
+    try {
+      developer.log('select image');
+      final ImagePicker picker = ImagePicker();
 
-    // way get image user (gallery)
-    image = await picker.pickImage(
-      source: isGallery ? ImageSource.gallery : ImageSource.camera,
-    );
+      // Get image from camera
+      image = await picker.pickImage(source: ImageSource.camera);
+      developer.log('after selection: ${image!.path}');
 
-    if (image != null && context.mounted) {
-      Navigator.pop(context);
-      cropImage(context);
+      if (image != null && context.mounted) {
+        developer.log('in if statment: ${image!.path}');
+
+        // Ensure the context is mounted before popping
+        await OcrImage(context, image!.path);
+      } else {
+        developer.log('No image selected');
+      }
+    } catch (e, stackTrace) {
+      developer.log('Error selecting image: $e',
+          error: e, stackTrace: stackTrace);
     }
   }
 
   /// [cropImage] open edit image
   Future<void> cropImage(BuildContext context) async {
     if (image != null) {
+      developer.log('in crop  $image');
+
       CroppedFile? croppedFile =
           await ImageCropper().cropImage(sourcePath: image!.path);
 
       if (croppedFile != null) {
         // convert XFile
+        developer.log('after crop $image');
+
         image = XFile(croppedFile.path);
-        OcrImage(context);
+        await OcrImage(context, croppedFile.path);
       }
     }
   }
 
-  OcrImage(BuildContext context) async {
+  OcrImage(BuildContext context, String path) async {
     if (image == null) return;
-    File _image = File(image!.path);
 
-    final inputImage = InputImage.fromFile(_image);
-    final textDetector = GoogleMlKit.vision.textRecognizer();
-    final recognizedText = await textDetector.processImage(inputImage);
+    try {
+      developer.log('in ocr $image');
 
-    String result = '';
-    for (TextBlock block in recognizedText.blocks) {
-      for (TextLine line in block.lines) {
-        result += line.text + '\n';
-      }
+      final InputImage inputImage = InputImage.fromFilePath(path);
+
+      final textRecognizer =
+          TextRecognizer(script: TextRecognitionScript.japanese);
+
+      final RecognizedText recognizedText =
+          await textRecognizer.processImage(inputImage);
+
+      String text = recognizedText.text;
+      developer.log("outer text$text");
+
+      developer.log("in ocr image");
+
+      developer.log("after save image");
+
+      // Perform OCR using flutter_tesseract_ocr
+
+      // Always close the text detector to avoid resource leaks
+
+      // Update OCR and Car Number Providers
+      ControllerOCR cOCR = Provider.of<ControllerOCR>(context, listen: false);
+      CUploadCar carnumber = Provider.of<CUploadCar>(context, listen: false);
+      cOCR.setOCR(text);
+      carnumber.salad.setcarNumber(text);
+      notifyListeners();
+    } catch (e) {
+      // Log the error
+      developer.log('Error processing image: $e', error: e);
+      // Optionally, show a user-friendly error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error processing image: $e')),
+      );
     }
-
-    textDetector.close();
-
-    ControllerOCR cOCR = Provider.of<ControllerOCR>(context, listen: false);
-    CUploadCar carnumber = Provider.of<CUploadCar>(context, listen: false);
-
-    cOCR.ocr.carNumber = result;
-    carnumber.salad.setcarNumber(result);
   }
 
   /// [getImageUser] check user image have or not

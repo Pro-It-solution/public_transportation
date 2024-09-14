@@ -23,7 +23,7 @@ class WidgetImage extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(MDime.xxl.w),
       onTap: () {
-        authImage.selectImage(context, false);
+        authImage.selectImage(context);
       },
       child: Stack(
         children: [
